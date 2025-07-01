@@ -11,6 +11,10 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
+
+
 // Dates for Ryan to Pre-Enter
 
 // Preselected Dates: e.g., Jul 1–2 and Jul 10-11
@@ -114,7 +118,7 @@ const App = () => {
     }
   };
 
-  const addAvailability = () => {
+  const addAvailability = async () => {
     const days = eachDayOfInterval({
       start: range.startDate,
       end: range.endDate,
@@ -140,6 +144,10 @@ const App = () => {
     }
 
     setAvailableDates(totalDates);
+    await setDoc(doc(db, "availability", "ryan"), {
+    dates: totalDates.map((d) => d.toISOString()),
+});
+
     setError(null);
   };
 
@@ -186,6 +194,20 @@ const tileClassName = ({ date, view }) => {
 };
 
 
+useEffect(() => {
+  const fetchData = async () => {
+    const docRef = doc(db, "availability", "ryan");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      setAvailableDates(data.dates.map((d) => new Date(d)));
+    }
+  };
+  fetchData();
+}, []);
+
+
+
   if (!authorized) {
     return (
       <div
@@ -212,6 +234,7 @@ const tileClassName = ({ date, view }) => {
       </div>
     );
   }
+
 
   return (
     <div style={backgroundStyle} className="p-4 max-w-3xl mx-auto min-h-screen">
