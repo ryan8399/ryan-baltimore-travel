@@ -11,9 +11,6 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-
 // Dates for Ryan to Pre-Enter
 
 // Preselected Dates: e.g., Jul 1–2 and Jul 10-11
