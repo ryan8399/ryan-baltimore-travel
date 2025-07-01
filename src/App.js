@@ -11,8 +11,11 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 
 
 // Dates for Ryan to Pre-Enter
